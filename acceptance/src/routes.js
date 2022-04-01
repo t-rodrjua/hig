@@ -24,6 +24,7 @@ import TextLinkPage from "./pages/TextLinkPage";
 import TogglePage from "./pages/TogglePage";
 import TooltipPage from "./pages/TooltipPage";
 import TypographyPage from "./pages/TypographyPage";
+import SandboxPage from "./pages/SandboxPage";
 
 export default [
   { path: "/accordion/", component: AccordionPage, label: "Accordion" },
@@ -52,4 +53,5 @@ export default [
   { path: "/toggle/", component: TogglePage, label: "Toggle" },
   { path: "/tooltip/", component: TooltipPage, label: "Tooltip" },
   { path: "/typography/", component: TypographyPage, label: "Typography" },
+  { path: "/sandbox/", component: SandboxPage, label: "Sandbox" }
 ];
