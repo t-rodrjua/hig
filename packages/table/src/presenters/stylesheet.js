@@ -22,7 +22,7 @@ export default function stylesheet(props, themeData, themeMeta) {
     selected,
     selectedBottom,
     selectedLeft,
-    customStylesheet
+    stylesheet: customStylesheet
   } = props;
 
   const alternateBgColor =

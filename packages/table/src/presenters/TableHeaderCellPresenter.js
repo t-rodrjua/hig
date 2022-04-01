@@ -14,8 +14,10 @@ export default function TableHeaderCellPresenter(props) {
     isSortPassed,
     onClick,
     setActiveMultiSelectColumn,
+    tableId,
     ...otherProps
   } = props;
+  const appendId = tableId ? `_${tableId}` : ``;
   const handleClick = useCallback(
     event => {
       if (isSortPassed && onClick && !columnSelection) {
@@ -44,6 +46,7 @@ export default function TableHeaderCellPresenter(props) {
   delete payload.isPressed;
   delete payload.isSortPassed;
   delete payload.setActiveMultiSelectColumn;
+  delete payload.stylesheet;
 
   return (
     <ThemeContext.Consumer>
@@ -57,7 +60,7 @@ export default function TableHeaderCellPresenter(props) {
             className={css(styles.higTableHeader)}
             onClick={handleClick}
             {...(isSelectableHeader
-              ? { "data-cell-coords": `${headerIndex}_-1` }
+              ? { "data-cell-coords": `${headerIndex}_-1${appendId}` }
               : {})}
           >
             <div className={css(styles.higTableHeaderContentWrapper)}>

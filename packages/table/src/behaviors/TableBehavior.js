@@ -99,8 +99,10 @@ const checkHorizontalScroll = (cellObject, table) => {
   horizontalScrollInContainer(cellObject, table);
 };
 
-const getCellObject = (activeColumnIndex, activeRowIndex) => {
-  return `[data-cell-coords="${activeColumnIndex}_${activeRowIndex}"]`;
+const getCellObject = (activeColumnIndex, activeRowIndex, id) => {
+  const appendId = id ? `_${id}` : ``;
+
+  return `[data-cell-coords="${activeColumnIndex}_${activeRowIndex}${appendId}"]`;
 };
 
 const getHeaders = columns => {
@@ -116,7 +118,7 @@ const getHeaders = columns => {
 
 export default function TableBehavior(props) {
   const { paginateDynamic, tableObject, ...otherProps } = props;
-  const { onKeyDown } = otherProps;
+  const { id, onBlur, onFocus, onKeyDown } = otherProps;
   const [getTotalRows, setTotalRows] = useState(tableObject.data.length);
   const [getColumnHeaderArray, setColumnHeaderArray] = useState(
     getHeaders(tableObject.columns)
@@ -144,6 +146,48 @@ export default function TableBehavior(props) {
     setInternalHeaderRef(element);
   };
 
+  const handleBlur = event => {
+    if (onBlur) {
+      onBlur(
+        event,
+        {
+          getActiveColumnIndex,
+          getActiveRowIndex,
+          getActiveMultiSelectColumn,
+          getActiveMultiSelectRowArray,
+          getAllMultiSelectedRows,
+          getColumnHeaderArray,
+          setActiveColumnIndex,
+          setActiveRowIndex,
+          setActiveMultiSelectColumn,
+          setActiveMultiSelectRowArray,
+          setAllMultiSelectedRows
+        }
+      );
+    }
+  };
+
+  const handleFocus = event => {
+    if (onFocus) {
+      onFocus(
+        event,
+        {
+          getActiveColumnIndex,
+          getActiveRowIndex,
+          getActiveMultiSelectColumn,
+          getActiveMultiSelectRowArray,
+          getAllMultiSelectedRows,
+          getColumnHeaderArray,
+          setActiveColumnIndex,
+          setActiveRowIndex,
+          setActiveMultiSelectColumn,
+          setActiveMultiSelectRowArray,
+          setAllMultiSelectedRows
+        }
+      );
+    }
+  };
+
   const handleKeyDown = useCallback(
     event => {
       const { columnSelection, rowHeight, rowSelection } = props;
@@ -154,7 +198,22 @@ export default function TableBehavior(props) {
       const scrollDownOffset = headerMultiplier * height + 1;
 
       if (onKeyDown) {
-        onKeyDown(event);
+        onKeyDown(
+          event,
+          {
+            getActiveColumnIndex,
+            getActiveRowIndex,
+            getActiveMultiSelectColumn,
+            getActiveMultiSelectRowArray,
+            getAllMultiSelectedRows,
+            getColumnHeaderArray,
+            setActiveColumnIndex,
+            setActiveRowIndex,
+            setActiveMultiSelectColumn,
+            setActiveMultiSelectRowArray,
+            setAllMultiSelectedRows
+          }
+        );
       }
       setActiveMultiSelectColumn(null);
       if (!getActiveColumnIndex) {
@@ -169,8 +228,8 @@ export default function TableBehavior(props) {
           if (getTotalRows !== getActiveRowIndex + 1) {
             setActiveRowIndex(getActiveRowIndex + 1);
             checkVerticalScroll(
-              document.querySelector(
-                getCellObject(getActiveColumnIndex, getActiveRowIndex + 1)
+              getInternalTableRef.querySelector(
+                getCellObject(getActiveColumnIndex, getActiveRowIndex + 1, id)
               ),
               getInternalTableRef,
               scrollDownOffset
@@ -186,8 +245,8 @@ export default function TableBehavior(props) {
           ) {
             setActiveRowIndex(getActiveRowIndex - 1);
             checkVerticalScroll(
-              document.querySelector(
-                getCellObject(getActiveColumnIndex, getActiveRowIndex - 1)
+              getInternalTableRef.querySelector(
+                getCellObject(getActiveColumnIndex, getActiveRowIndex - 1, id)
               ),
               getInternalTableRef,
               scrollDownOffset
@@ -200,8 +259,8 @@ export default function TableBehavior(props) {
           if (getActiveColumnIndex !== columnStart) {
             setActiveColumnIndex(getActiveColumnIndex - 1);
             checkHorizontalScroll(
-              document.querySelector(
-                getCellObject(getActiveColumnIndex - 1, getActiveRowIndex)
+              getInternalTableRef.querySelector(
+                getCellObject(getActiveColumnIndex - 1, getActiveRowIndex, id)
               ),
               getInternalTableRef
             );
@@ -213,8 +272,8 @@ export default function TableBehavior(props) {
           if (getColumnHeaderArray.length !== getActiveColumnIndex + 1) {
             setActiveColumnIndex(getActiveColumnIndex + 1);
             checkHorizontalScroll(
-              document.querySelector(
-                getCellObject(getActiveColumnIndex + 1, getActiveRowIndex)
+              getInternalTableRef.querySelector(
+                getCellObject(getActiveColumnIndex + 1, getActiveRowIndex, id)
               ),
               getInternalTableRef
             );
@@ -292,6 +351,8 @@ export default function TableBehavior(props) {
     getActiveMultiSelectRowArray,
     getAllMultiSelectedRows,
     getColumnHeaderArray,
+    handleBlur,
+    handleFocus,
     handleKeyDown,
     setActiveColumnIndex,
     setActiveRowIndex,

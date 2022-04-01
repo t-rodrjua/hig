@@ -20,7 +20,9 @@ const Table = props => {
     tableSpreadProps,
     paginateDynamic,
     onTableCellClick,
-    stylesheet
+    stylesheet,
+    tableRef,
+    ...otherProps
   } = props;
 
   return (
@@ -28,11 +30,13 @@ const Table = props => {
       {/* eslint-disable-next-line */}
       {({ resolvedRoles, metadata }) => (
         <TableBehavior
+          {...otherProps}
           columnSelection={columnSelection}
           frozenHeader={frozenHeader}
           rowHeight={resolvedRoles["table.cell.minHeight"]}
           rowSelection={rowSelection}
           tableObject={tableObject}
+          tableRef={tableRef}
         >
           {({
             getActiveColumnIndex,
@@ -41,6 +45,8 @@ const Table = props => {
             getActiveRowIndex,
             getAllMultiSelectedRows,
             getColumnHeaderArray,
+            handleBlur,
+            handleFocus,
             handleKeyDown,
             setActiveColumnIndex,
             setActiveMultiSelectColumn,
@@ -52,6 +58,7 @@ const Table = props => {
             setTotalRows
           }) => (
             <TablePresenter
+              {...otherProps}
               alternateBg={alternateBg}
               columnSelection={columnSelection}
               frozenHeader={frozenHeader}
@@ -67,6 +74,8 @@ const Table = props => {
               getActiveRowIndex={getActiveRowIndex}
               getAllMultiSelectedRows={getAllMultiSelectedRows}
               getColumnHeaderArray={getColumnHeaderArray}
+              handleBlur={handleBlur}
+              handleFocus={handleFocus}
               handleKeyDown={handleKeyDown}
               setActiveColumnIndex={setActiveColumnIndex}
               setActiveMultiSelectColumn={setActiveMultiSelectColumn}

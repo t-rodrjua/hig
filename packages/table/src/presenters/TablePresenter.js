@@ -59,6 +59,7 @@ const TablePresenter = ({
   stylesheet: customStylesheet,
   ...otherProps
 }) => {
+  const { id } = otherProps;
   const { columns, data, meta } = useMemo(() => tableObject, [tableObject]);
 
   const defaultColumn = useMemo(() => ({
@@ -74,6 +75,7 @@ const TablePresenter = ({
     getActiveRowIndex,
     getAllMultiSelectedRows,
     getColumnHeaderArray,
+    handleBlur,
     handleFocus,
     handleKeyDown,
     setActiveColumnIndex,
@@ -231,7 +233,7 @@ const TablePresenter = ({
             frozenHeaderCount,
             isStickyColumns,
             isStickyHeader,
-            customStylesheet
+            stylesheet: customStylesheet
           },
           resolvedRoles,
           metadata
@@ -255,6 +257,7 @@ const TablePresenter = ({
             <div
               {...getTableProps()}
               className={css(styles.higTable)}
+              onBlur={handleBlur}
               onFocus={handleFocus}
               onKeyDown={handleKeyDown}
               ref={setTableRef}
@@ -276,7 +279,7 @@ const TablePresenter = ({
                     {headerGroup.headers.map((column, columnIndex) => {
                       const resizingStyles = column.canResize
                         ? stylesheet(
-                            { isResizing: column.isResizing },
+                            { isResizing: column.isResizing, stylesheet: customStylesheet },
                             resolvedRoles,
                             metadata
                           )
@@ -307,6 +310,8 @@ const TablePresenter = ({
                           setActiveMultiSelectColumn={
                             setActiveMultiSelectColumn
                           }
+                          stylesheet={customStylesheet}
+                          tableId={id}
                         >
                           <div className={css(styles.headerHolder)}>
                             {column.canGroupBy && meta.groupElements ? (
@@ -357,7 +362,8 @@ const TablePresenter = ({
                     {
                       alternateBg,
                       isCustomeContentExpanded: customContentArray[rowIndex],
-                      rowIndex
+                      rowIndex,
+                      stylesheet: customStylesheet
                     },
                     resolvedRoles,
                     metadata
@@ -429,6 +435,8 @@ const TablePresenter = ({
                                 setActiveMultiSelectRowArray
                               }
                               rowTypeToMap={paginateDynamic ? rows : page}
+                              stylesheet={customStylesheet}
+                              tableId={id}
                             >
                               {/* eslint-disable */}
                               {cell.isGrouped ? (

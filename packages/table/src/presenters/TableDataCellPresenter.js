@@ -19,9 +19,12 @@ export default function TableDataCellPresenter(props) {
     getActiveMultiSelectRowArray,
     setAllMultiSelectedRows,
     setActiveMultiSelectRowArray,
+    stylesheet: customStylesheet,
     rowTypeToMap,
+    tableId,
     ...otherProps
   } = props;
+  const appendId = tableId ? `_${tableId}` : ``;
   const handleCellClick = useCallback(
     event => {
       if (onTableCellClick) {
@@ -73,7 +76,7 @@ export default function TableDataCellPresenter(props) {
           <div
             {...payload}
             className={css(styles.higTableCell)}
-            data-cell-coords={`${cellColumnIndex}_${cellRowIndex}`}
+            data-cell-coords={`${cellColumnIndex}_${cellRowIndex}${appendId}`}
             onClick={handleCellClick}
           >
             <div className={css(styles.higTableCellContentWrapper)}>
