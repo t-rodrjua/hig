@@ -5,7 +5,8 @@ import PaginationDynamic from "./PaginationDynamic";
 import ExpandedComponent from "./ExpandedComponent";
 import ColumnShowHideComponent from "./ColumnShowHideComponent";
 import SortColumns from "./SortColumns";
-import {tableContent} from "./DataSourceMock";
+import GenericApplication from "./GenericApplication";
+import {tableContent, tableContentTwo, tableContentThree} from "./DataSourceMock";
 
 /*
 meta: {
@@ -41,6 +42,7 @@ export const TABLE_OBJECT_BASIC = {
     columnShowHideComponent: props => <ColumnShowHideComponent passedData={props} />,
     columnShowHide: true,
     sortColumns: props => <SortColumns passedData={props} />,
+    genericApplication: props => <GenericApplication passedData={props} />,
     formatDate: false, 
   },
   columns: [
@@ -75,14 +77,38 @@ export const TABLE_OBJECT_BASIC = {
         width: 180
       },
   ],
-  data: tableContent.data.map((row, index) => {
-    return {
-      "id": row.id,
-      "adskid": generateId('ADSK'),
-      "admin": index % 2 === 0 ? "true" : "false",
-      "status": row.status,
-      "date": row.date,
-      "author": row.author,
-    };
-  }),
+  groupNames: ['Revit Model', 'CAD Formats', 'Sample Empty', 'Coordination Model'],
+  data: [
+    tableContentThree.data.map((row, index) => {
+      return {
+        "id": row.id,
+        "adskid": generateId('ADSK'),
+        "admin": index % 2 === 0 ? "true" : "false",
+        "status": row.status,
+        "date": row.date,
+        "author": row.author,
+      };
+    }),
+    tableContentTwo.data.map((row, index) => {
+      return {
+        "id": row.id,
+        "adskid": generateId('ADSK'),
+        "admin": index % 2 === 0 ? "true" : "false",
+        "status": row.status,
+        "date": row.date,
+        "author": row.author,
+      };
+    }),
+    [],
+    tableContent.data.map((row, index) => {
+      return {
+        "id": row.id,
+        "adskid": generateId('ADSK'),
+        "admin": index % 2 === 0 ? "true" : "false",
+        "status": row.status,
+        "date": row.date,
+        "author": row.author,
+      };
+    })
+  ],
 };

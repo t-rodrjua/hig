@@ -45,7 +45,7 @@ export default [
   { path: "/radio-button/", component: RadioButtonPage, label: "Radio Button" },
   { path: "/rich-text/", component: RichTextPage, label: "Rich Text" },
   { path: "/slider/", component: SliderPage, label: "Slider" },
-  { path: "/table/", component: TablePage, label: "Table" },
+  { path: "/table", component: TablePage, label: "Table" },
   { path: "/tabs/", component: TabsPage, label: "Tabs" },
   { path: "/text-area/", component: TextAreaPage, label: "Text Area" },
   { path: "/text-link/", component: TextLinkPage, label: "Text Link" },
