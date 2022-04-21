@@ -276,7 +276,7 @@ const renderTable = params => {
   });
 
   return (
-    <ThemeContext.Consumer>
+    <ThemeContext.Consumer key={count}>
       {({ resolvedRoles, metadata }) => {
         const styles = stylesheet(
           {
