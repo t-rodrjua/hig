@@ -45,7 +45,7 @@ const TableDataContents = ({
   isGrouped,
   tableObject,
   topLevelColumn,
-  count
+  getGlobalResizeStyles
 }) => (
   <div {...getTableBodyProps()} className={css(styles.higTableBody)}>
     {rowTypeToMap.map((row, rowIndex) => {
@@ -125,6 +125,7 @@ const TableDataContents = ({
                   setActiveMultiSelectRowArray={setActiveMultiSelectRowArray}
                   rowTypeToMap={paginateDynamic ? rows : page}
                   customStylesheet={customStylesheet}
+                  getGlobalResizeStyles={getGlobalResizeStyles}
                 >
                   {/* eslint-disable */}
                   {cell.isGrouped ? (

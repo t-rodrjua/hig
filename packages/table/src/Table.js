@@ -51,7 +51,9 @@ const Table = props => {
             setTableRef,
             setTotalRows,
             getGlobalColumns,
-            setGlobalColumns
+            setGlobalColumns,
+            getGlobalResizeStyles,
+            setGlobalResizeStyles
           }) => (
             <TablePresenter
               alternateBg={alternateBg}
@@ -84,6 +86,8 @@ const Table = props => {
               stylesheet={stylesheet}
               getGlobalColumns={getGlobalColumns}
               setGlobalColumns={setGlobalColumns}
+              getGlobalResizeStyles={getGlobalResizeStyles}
+              setGlobalResizeStyles={setGlobalResizeStyles}
             />
           )}
         </TableBehavior>

@@ -94,7 +94,9 @@ const renderTable = params => {
     setActiveRowIndex,
     setAllMultiSelectedRows,
     getGlobalColumns,
-    setGlobalColumns
+    setGlobalColumns,
+    getGlobalResizeStyles,
+    setGlobalResizeStyles
   } = otherProps;
 
   const {
@@ -226,6 +228,7 @@ const renderTable = params => {
     return stickyObject;
   };
   const [customContentArray] = useState([]);
+  // const resizeStylesRef = useRef(null);
   // const [globalColumns, setGlobalColumns] = useState(null);
   const pageDetails = {
     canPreviousPage,
@@ -248,21 +251,30 @@ const renderTable = params => {
     // console.log(getGlobalColumns);
     if (!getGlobalColumns && count === 0) {
       setGlobalColumns(headerGroups[0].headers);
+      console.log('set global columns');
     }
   });
 
   useLayoutEffect(() => {
+    const currentHeaderStyles = headerGroups && headerGroups[0].headers.map(item => {
+      return item.getHeaderProps().style;
+    });
+    /*
+    getGlobalResizeStyles,
+    setGlobalResizeStyles*/
     // console.log(count);
     // console.log('useLayoutEffect');
-    if (count === 0 && headerGroups) {
-      console.log(headerGroups[0].headers);
-      console.log(headerGroups[0].headers.map(item => {
-        return item.getHeaderProps().style;
-      }))
+    // if (count === 0 && !getGlobalResizeStyles) {
+    //   setGlobalResizeStyles(currentHeaderStyles);
+    //   // console.log(headerGroups[0].headers);
+    //   resizeStylesRef.current = currentHeaderStyles;
+    // }
+    if (JSON.stringify(getGlobalResizeStyles) !== JSON.stringify(currentHeaderStyles) && count === 0) {
+      setGlobalResizeStyles(currentHeaderStyles);
     }
     // console.log(column?.getResizerProps && column.getResizerProps());
   });
-// console.log(getGlobalColumns);
+
   return (
     <ThemeContext.Consumer>
       {({ resolvedRoles, metadata }) => {
@@ -371,9 +383,7 @@ const renderTable = params => {
                               ) : null}
                               {column.render("Header")}
                             </div>
-                            {/* eslint-disable-next-line */
-                              console.log(column?.getResizerProps && column.getResizerProps())
-                            }
+                            {/* eslint-disable-next-line */}
                             <div
                               {...(column.canResize
                                 ? { ...column.getResizerProps() }
@@ -441,7 +451,7 @@ const renderTable = params => {
                     isGrouped={isGrouped}
                     tableObject={tableObject}
                     topLevelColumn={getGlobalColumns}
-                    count={count}
+                    getGlobalResizeStyles={getGlobalResizeStyles}
                   />
                 </Accordion>
               )}

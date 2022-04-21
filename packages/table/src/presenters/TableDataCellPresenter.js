@@ -20,6 +20,7 @@ export default function TableDataCellPresenter(props) {
     setAllMultiSelectedRows,
     setActiveMultiSelectRowArray,
     rowTypeToMap,
+    getGlobalResizeStyles,
     ...otherProps
   } = props;
   const handleCellClick = useCallback(
@@ -64,6 +65,7 @@ export default function TableDataCellPresenter(props) {
   delete payload.selectedLeft;
 // console.log('tabledatacellpresenter');
 // console.log(otherProps);
+// console.log(getGlobalResizeStyles);
   return (
     <ThemeContext.Consumer>
       {({ resolvedRoles, metadata }) => {
@@ -76,6 +78,7 @@ export default function TableDataCellPresenter(props) {
             className={css(styles.higTableCell)}
             data-cell-coords={`${cellColumnIndex}_${cellRowIndex}`}
             onClick={handleCellClick}
+            style={getGlobalResizeStyles && getGlobalResizeStyles[cellColumnIndex + 1]}
           >
             <div className={css(styles.higTableCellContentWrapper)}>
               {children}
