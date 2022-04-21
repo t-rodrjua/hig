@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { css } from "emotion";
 import {
@@ -92,7 +92,9 @@ const renderTable = params => {
     setActiveMultiSelectColumn,
     setActiveMultiSelectRowArray,
     setActiveRowIndex,
-    setAllMultiSelectedRows
+    setAllMultiSelectedRows,
+    getGlobalColumns,
+    setGlobalColumns
   } = otherProps;
 
   const {
@@ -224,6 +226,7 @@ const renderTable = params => {
     return stickyObject;
   };
   const [customContentArray] = useState([]);
+  // const [globalColumns, setGlobalColumns] = useState(null);
   const pageDetails = {
     canPreviousPage,
     canNextPage,
@@ -239,6 +242,27 @@ const renderTable = params => {
     setTotalRows(rowTypeToMap.length);
   });
 
+  useEffect(() => {
+    // console.log('useEffect');
+    // console.log(count);
+    // console.log(getGlobalColumns);
+    if (!getGlobalColumns && count === 0) {
+      setGlobalColumns(headerGroups[0].headers);
+    }
+  });
+
+  useLayoutEffect(() => {
+    // console.log(count);
+    // console.log('useLayoutEffect');
+    if (count === 0 && headerGroups) {
+      console.log(headerGroups[0].headers);
+      console.log(headerGroups[0].headers.map(item => {
+        return item.getHeaderProps().style;
+      }))
+    }
+    // console.log(column?.getResizerProps && column.getResizerProps());
+  });
+// console.log(getGlobalColumns);
   return (
     <ThemeContext.Consumer>
       {({ resolvedRoles, metadata }) => {
@@ -292,19 +316,23 @@ const renderTable = params => {
                       key={`header-group-${headerGroupIndex}`}
                     >
                       {headerGroup.headers.map((column, columnIndex) => {
-                        const resizingStyles = column.canResize
+                        // console.log('header');
+                        //headerGroups[0].headers[0].canResize
+                        const headerIndex = getColumnHeaderArray.indexOf(
+                          column.Header
+                        );
+                        // console.log(headerIndex);
+                        // console.log(headerGroups[0].headers[headerIndex + 1].canResize);
+                        const resizingStyles = column.canResize || (getGlobalColumns && getGlobalColumns[headerIndex + 1].canResize)
                           ? stylesheet(
                               {
-                                isResizing: column.isResizing,
+                                isResizing: column.isResizing || (getGlobalColumns && getGlobalColumns[headerIndex + 1].isResizing),
                                 customStylesheet
                               },
                               resolvedRoles,
                               metadata
                             )
                           : null;
-                        const headerIndex = getColumnHeaderArray.indexOf(
-                          column.Header
-                        );
 
                         return (
                           <TableHeaderCell
@@ -343,7 +371,9 @@ const renderTable = params => {
                               ) : null}
                               {column.render("Header")}
                             </div>
-                            {/* eslint-disable-next-line */}
+                            {/* eslint-disable-next-line */
+                              console.log(column?.getResizerProps && column.getResizerProps())
+                            }
                             <div
                               {...(column.canResize
                                 ? { ...column.getResizerProps() }
@@ -410,6 +440,8 @@ const renderTable = params => {
                     page={page}
                     isGrouped={isGrouped}
                     tableObject={tableObject}
+                    topLevelColumn={getGlobalColumns}
+                    count={count}
                   />
                 </Accordion>
               )}

@@ -62,7 +62,8 @@ export default function TableDataCellPresenter(props) {
   delete payload.multiSelectedRowBottom;
   delete payload.selectedBottom;
   delete payload.selectedLeft;
-
+// console.log('tabledatacellpresenter');
+// console.log(otherProps);
   return (
     <ThemeContext.Consumer>
       {({ resolvedRoles, metadata }) => {

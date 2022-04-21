@@ -43,7 +43,9 @@ const TableDataContents = ({
   meta,
   page,
   isGrouped,
-  tableObject
+  tableObject,
+  topLevelColumn,
+  count
 }) => (
   <div {...getTableBodyProps()} className={css(styles.higTableBody)}>
     {rowTypeToMap.map((row, rowIndex) => {
@@ -58,7 +60,8 @@ const TableDataContents = ({
         metadata
       );
       prepareRow(row);
-
+// console.log('tabledatacontents');
+// console.log(topLevelColumn);
       return (
         <div key={`table-body-row-${rowIndex}`}>
           <div
@@ -74,6 +77,10 @@ const TableDataContents = ({
                 ? rowIndex + getOffset()
                 : rowIndex;
               const totalRows = rowTypeToMap.length || tableObject.data.length;
+              // console.log(count);
+              // console.log(cellColumnIndex);
+              // console.log(cell?.column);
+              // console.log(topLevelColumn[cellColumnIndex + 1]);
               return (
                 <TableDataCell
                   {...cell.getCellProps()}
@@ -81,7 +88,7 @@ const TableDataContents = ({
                   cellRowIndex={cellRowIndex}
                   getColumnHeaderArray={getColumnHeaderArray}
                   isLast={rowIndex + 1 === totalRows}
-                  isResizing={cell?.column?.isResizing}
+                  isResizing={topLevelColumn && topLevelColumn[cellColumnIndex + 1].isResizing}
                   key={`table-data-cell-${cellIndex}`}
                   multiSelectedColumn={
                     getActiveMultiSelectColumn === cellColumnIndex
