@@ -44,7 +44,7 @@ const TableDataContents = ({
   page,
   isGrouped,
   tableObject,
-  topLevelColumn,
+  getGlobalColumns,
   getGlobalResizeStyles
 }) => (
   <div {...getTableBodyProps()} className={css(styles.higTableBody)}>
@@ -88,7 +88,7 @@ const TableDataContents = ({
                   cellRowIndex={cellRowIndex}
                   getColumnHeaderArray={getColumnHeaderArray}
                   isLast={rowIndex + 1 === totalRows}
-                  isResizing={topLevelColumn && topLevelColumn[cellColumnIndex + 1].isResizing}
+                  isResizing={getGlobalColumns && getGlobalColumns[cellColumnIndex + 1].isResizing}
                   key={`table-data-cell-${cellIndex}`}
                   multiSelectedColumn={
                     getActiveMultiSelectColumn === cellColumnIndex

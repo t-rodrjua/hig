@@ -450,7 +450,7 @@ const renderTable = params => {
                     page={page}
                     isGrouped={isGrouped}
                     tableObject={tableObject}
-                    topLevelColumn={getGlobalColumns}
+                    getGlobalColumns={getGlobalColumns}
                     getGlobalResizeStyles={getGlobalResizeStyles}
                   />
                 </Accordion>
