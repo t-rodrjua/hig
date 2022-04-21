@@ -36,6 +36,7 @@ export default function TableHeaderCellPresenter(props) {
     ]
   );
   const payload = { ...otherProps };
+  const resizeStyles = payload.style || {};
 
   delete payload.getActiveMultiSelectColumn;
   delete payload.getColumnHeaderArray;
@@ -45,18 +46,23 @@ export default function TableHeaderCellPresenter(props) {
   delete payload.isSortPassed;
   delete payload.setActiveMultiSelectColumn;
   delete payload.customStylesheet;
+  delete payload.style;
 // console.log('tableheadercellpresenter');
 // console.log(otherProps?.style);
   return (
     <ThemeContext.Consumer>
       {({ resolvedRoles, metadata }) => {
         const styles = stylesheet(props, resolvedRoles, metadata);
+        const mergedStyles = {
+          ...styles.higTableHeader,
+          ...resizeStyles
+        }
 
         return (
           /* eslint-disable-next-line */
           <div
             {...payload}
-            className={css(styles.higTableHeader)}
+            className={css(mergedStyles)}
             onClick={handleClick}
             {...(isSelectableHeader
               ? { "data-cell-coords": `${headerIndex}_-1` }

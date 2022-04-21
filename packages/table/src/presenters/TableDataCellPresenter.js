@@ -52,6 +52,7 @@ export default function TableDataCellPresenter(props) {
     ]
   );
   const payload = { ...otherProps };
+  const resizeStyles = getGlobalResizeStyles && getGlobalResizeStyles[cellColumnIndex + 1] || {};
 
   delete payload.getColumnHeaderArray;
   delete payload.hasHover;
@@ -64,6 +65,8 @@ export default function TableDataCellPresenter(props) {
   delete payload.selectedBottom;
   delete payload.selectedLeft;
   delete payload.customStylesheet;
+  // remove resize inline style and move to emotion styles
+  delete payload.style
 // console.log('tabledatacellpresenter');
 // console.log(otherProps);
 // console.log(getGlobalResizeStyles);
@@ -71,15 +74,19 @@ export default function TableDataCellPresenter(props) {
     <ThemeContext.Consumer>
       {({ resolvedRoles, metadata }) => {
         const styles = stylesheet(props, resolvedRoles, metadata);
+        const mergedStyles = {
+          ...styles.higTableCell,
+          ...resizeStyles
+        }
 
         return (
           /* eslint-disable-next-line */
           <div
             {...payload}
-            className={css(styles.higTableCell)}
+            className={css(mergedStyles)}
             data-cell-coords={`${cellColumnIndex}_${cellRowIndex}`}
             onClick={handleCellClick}
-            style={getGlobalResizeStyles && getGlobalResizeStyles[cellColumnIndex + 1]}
+            // style={getGlobalResizeStyles && getGlobalResizeStyles[cellColumnIndex + 1]}
           >
             <div className={css(styles.higTableCellContentWrapper)}>
               {children}
