@@ -44,6 +44,7 @@ export default function TableHeaderCellPresenter(props) {
   delete payload.isPressed;
   delete payload.isSortPassed;
   delete payload.setActiveMultiSelectColumn;
+  delete payload.customStylesheet;
 // console.log('tableheadercellpresenter');
 // console.log(otherProps?.style);
   return (

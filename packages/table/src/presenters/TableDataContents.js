@@ -163,7 +163,7 @@ TableDataContents.propTypes = {
   metadata: PropTypes.any,
   prepareRow: PropTypes.any,
   rowSpreadProps: PropTypes.any,
-  getColumnHeaderArray: PropTypes.func,
+  getColumnHeaderArray: PropTypes.any,
   getOffset: PropTypes.func,
   getActiveMultiSelectColumn: PropTypes.func,
   getActiveMultiSelectRowArray: PropTypes.func,

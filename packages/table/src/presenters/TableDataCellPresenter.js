@@ -63,6 +63,7 @@ export default function TableDataCellPresenter(props) {
   delete payload.multiSelectedRowBottom;
   delete payload.selectedBottom;
   delete payload.selectedLeft;
+  delete payload.customStylesheet;
 // console.log('tabledatacellpresenter');
 // console.log(otherProps);
 // console.log(getGlobalResizeStyles);
